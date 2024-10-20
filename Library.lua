@@ -42,12 +42,12 @@ local Library = {
     FontColor = Color3.fromRGB(255, 255, 255);
     MainColor = Color3.fromRGB(28, 28, 28);
     BackgroundColor = Color3.fromRGB(20, 20, 20);
-    AccentColor = Color3.fromRGB(0, 85, 255);
+    AccentColor = Color3.fromRGB(106,90,205);
     OutlineColor = Color3.fromRGB(50, 50, 50);
     RiskColor = Color3.fromRGB(255, 50, 50),
 
     Black = Color3.new(0, 0, 0);
-    Font = Enum.Font.Code,
+    Font = Enum.Font.RobotoMono; --41,
 
     OpenedFrames = {};
     DependencyBoxes = {};
@@ -3700,8 +3700,8 @@ function Library:CreateWindow(...)
         AutomaticCanvasSize = Enum.AutomaticSize.XY;
         ScrollBarThickness = 0;
         BackgroundTransparency = 1;
-        Position = UDim2.new(0, 8 - Config.TabPadding, 0, 4);
-        Size = UDim2.new(1, -10, 0, 26);
+        Position = UDim2.new(0, 8 - Config.TabPadding, 0, 8);
+        Size = UDim2.new(1, -16, 0, 40);
         ZIndex = 1;
         Parent = MainSectionInner;
     });
