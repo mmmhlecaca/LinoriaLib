@@ -188,6 +188,93 @@ function Library:MakeDraggable(Instance, Cutoff)
                 RenderStepped:Wait();
             end;
         end;
+    function Library:MakeResizable(Instance, MinSize)
+    if Library.IsMobile then
+        return;
+    end;
+
+    Instance.Active = true;
+
+    local ResizerImage_Size = 25;
+    local ResizerImage_HoverTransparency = 0.5;
+
+    local Resizer = Library:Create('Frame', {
+        SizeConstraint = Enum.SizeConstraint.RelativeXX;
+        BackgroundColor3 = Color3.new(0, 0, 0);
+        BackgroundTransparency = 1;
+        BorderSizePixel = 0;
+        Size = UDim2.new(0, 30, 0, 30);
+        Position = UDim2.new(1, -30, 1, -30);
+        Visible = true;
+        ClipsDescendants = true;
+        ZIndex = 1;
+        Parent = Instance;--Library.ScreenGui;
+    });
+
+    local ResizerImage = Library:Create('ImageButton', {
+        BackgroundColor3 = Library.AccentColor;
+        BackgroundTransparency = 1;
+        BorderSizePixel = 0;
+        Size = UDim2.new(2, 0, 2, 0);
+        Position = UDim2.new(1, -30, 1, -30);
+        ZIndex = 2;
+        Parent = Resizer;
+    });
+
+    local ResizerImageUICorner = Library:Create('UICorner', {
+        CornerRadius = UDim.new(0.5, 0);
+        Parent = ResizerImage;
+    });
+
+    Library:AddToRegistry(ResizerImage, { BackgroundColor3 = 'AccentColor'; });
+
+    Resizer.Size = UDim2.fromOffset(ResizerImage_Size, ResizerImage_Size);
+    Resizer.Position = UDim2.new(1, -ResizerImage_Size, 1, -ResizerImage_Size);
+    MinSize = MinSize or Library.MinSize;
+
+    local OffsetPos;
+    Resizer.Parent = Instance;
+
+    local function FinishResize(Transparency)
+        ResizerImage.Position = UDim2.new();
+        ResizerImage.Size = UDim2.new(2, 0, 2, 0);
+        ResizerImage.Parent = Resizer;
+        ResizerImage.BackgroundTransparency = Transparency;
+        ResizerImageUICorner.Parent = ResizerImage;
+        OffsetPos = nil;
+    end;
+
+    ResizerImage.MouseButton1Down:Connect(function()
+        if not OffsetPos then
+            OffsetPos = Vector2.new(Mouse.X - (Instance.AbsolutePosition.X + Instance.AbsoluteSize.X), Mouse.Y - (Instance.AbsolutePosition.Y + Instance.AbsoluteSize.Y));
+
+            ResizerImage.BackgroundTransparency = 1
+            ResizerImage.Size = UDim2.fromOffset(Library.ScreenGui.AbsoluteSize.X, Library.ScreenGui.AbsoluteSize.Y);
+            ResizerImage.Position = UDim2.new();
+            ResizerImageUICorner.Parent = nil;
+            ResizerImage.Parent = Library.ScreenGui;
+        end;
+    end);
+
+    ResizerImage.MouseMoved:Connect(function()
+        if OffsetPos then		
+            local MousePos = Vector2.new(Mouse.X - OffsetPos.X, Mouse.Y - OffsetPos.Y);
+            local FinalSize = Vector2.new(math.clamp(MousePos.X - Instance.AbsolutePosition.X, MinSize.X, math.huge), math.clamp(MousePos.Y - Instance.AbsolutePosition.Y, MinSize.Y, math.huge));
+            Instance.Size = UDim2.fromOffset(FinalSize.X, FinalSize.Y);
+        end;
+    end);
+
+    ResizerImage.MouseEnter:Connect(function()
+        FinishResize(ResizerImage_HoverTransparency);		
+    end);
+
+    ResizerImage.MouseLeave:Connect(function() 
+        FinishResize(1);
+    end);
+
+    ResizerImage.MouseButton1Up:Connect(function()
+        FinishResize(ResizerImage_HoverTransparency);
+    end);
     end)
 end;
 
