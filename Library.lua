@@ -3700,8 +3700,8 @@ function Library:CreateWindow(...)
         AutomaticCanvasSize = Enum.AutomaticSize.XY;
         ScrollBarThickness = 0;
         BackgroundTransparency = 1;
-        Position = UDim2.new(0, 8, 0, 8);
-        Size = UDim2.new(1, -16, 0, 40);
+        Position = UDim2.new(0, 8 - Config.TabPadding, 0, 4);
+        Size = UDim2.new(1, -10, 0, 26);
         ZIndex = 1;
         Parent = MainSectionInner;
     });
