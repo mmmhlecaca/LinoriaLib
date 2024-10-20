@@ -197,7 +197,7 @@ function Library:AddToolTip(InfoStr, HoverInstance)
         BackgroundColor3 = Library.MainColor,
         BorderColor3 = Library.OutlineColor,
 
-        Size = UDim2.fromOffset(X + 60, Y + 4),
+        Size = UDim2.fromOffset(X + 5, Y + 4),
         ZIndex = 100,
         Parent = Library.ScreenGui,
 
@@ -2989,7 +2989,7 @@ function Library:CreateWindow(...)
     if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-    if type(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 570) end
+    if type(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(1000, 700) end
 
     if Config.Center then
         Config.AnchorPoint = Vector2.new(0.5, 0.5)
